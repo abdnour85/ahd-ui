@@ -1,0 +1,354 @@
+<!-- general form elements -->
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title pull-left"><b> بطاقة عمل رقم {{mission.serialNo}}</b></h3>
+        <button *ngIf="isEditEnabled" type="button" class="btn btn-primary" (click)="saveMission()"><i
+                class="fa fa-save append-icon"></i>حفظ</button> &nbsp;
+        <button type="button" (click)="printMission()" class="btn btn-primary"><i
+                class="fa fa-print append-icon"></i>&nbsp;طباعة</button> &nbsp;
+        <button type="button" [routerLink]="['/missions-list']" class="btn">
+            <i class="fa fa-times append-icon"></i>إغلاق</button>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-address-card"></i>
+                        الاسم
+                    </div>
+                    <input type="text" class="form-control input-sm" [(ngModel)]="mission.name">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-address-card"></i>
+                        رقم swat
+                    </div>
+                    <input (change)="checkSwat()" type="text" class="form-control input-sm" placeholder="رقم swat"
+                        [(ngModel)]="mission.swatNo" />
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-mobile"></i>
+                        التاريخ
+                    </div>
+                    <input type="date" class="form-control input-sm" [(ngModel)]="mission.date" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                        طبيعة العمل
+                    </div>
+                    <select [(ngModel)]="mission.workTypeId" class="form-control input-sm">
+                        <option *ngFor="let option of workTypes.items" [ngValue]="option.id">
+                            {{option.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                        الحالة
+                    </div>
+                    <select [(ngModel)]="mission.taskStateId" class="form-control input-sm">
+                        <option *ngFor="let option of taskStates.items" [ngValue]="option.id">
+                            {{option.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+                        التكلفة
+                    </div>
+                    <span class="form-control input-sm">{{mission.price}}</span>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+                        الخصم
+                    </div>
+                    <span class="form-control input-sm">{{mission.deductions}}</span>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+                        الصافي
+                    </div>
+                    <span class="form-control input-sm">{{mission.total}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <div class="alert alert-primary" role="alert">
+                    العهدة المستخدمة
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 5%">
+                        <div class="vd_checkbox checkbox-primary">
+                            <label for="chk-all"></label>
+                        </div>
+                    </th>
+                    <th style="width: 5%">#</th>
+                    <th style="width: 30%">اسم الصنف</th>
+                    <th style="width: 20%">الكمية</th>
+                    <th style="width: 30%">ملاحظات</th>
+                    <th style="width: 10%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mission.stockInvoice.items; let i = index">
+                    <td>
+                        <div class="vd_checkbox checkbox-primary">
+                        </div>
+                    </td>
+                    <td>
+                        {{ i + 1 }}
+                    </td>
+                    <td>
+                        <ng-container *ngIf="item.product_status == 'x'; then l_product else t_product"></ng-container>
+                        <ng-template #l_product>
+                            <label>{{ item.product_name }}</label>
+                        </ng-template>
+                        <ng-template #t_product>
+                            <select [(ngModel)]="item.productId" (change)="setMissionProduct(item, i)"
+                                class="form-control input-sm">
+                                <option *ngFor="let option of products.items" [ngValue]="option.id">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm" [(ngModel)]="item.quantity" />
+                                <div class="input-group-addon">
+                                    /{{item.inStore}}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control input-sm" [(ngModel)]="item.notes" />
+                    </td>
+                    <td class="menu-action">
+                        <a *ngIf="isEditEnabled" (click)="removeMissionProduct(i)" class="btn menu-icon"><i class="fa fa-trash"></i></a>
+                        <a *ngIf="i == mission.stockInvoice.items.length-1 && isEditEnabled" class="btn menu-icon"
+                            (click)="addProduct()"><i class="fa fa-plus"></i></a>
+                    </td>
+                </tr>
+                <tr *ngIf="mission.stockInvoice.items.length==0 && isEditEnabled">
+                    <td colspan="5"> </td>
+                    <td class="menu-action">
+                        <a class="btn menu-icon" (click)="addProduct()"><i class="fa fa-plus"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <ng-container *ngFor="let contract of mission.contracts; let i = index">
+            <div class="row">
+                <div class="form-group col-sm-12">
+                    <div class="alert alert-primary" role="alert">
+                        {{i+1}}.
+                        <a *ngIf="isEditEnabled" (click)="removeContract(i)" class="btn menu-icon"><i class="fa fa-trash"></i></a> &nbsp;
+                        <span *ngIf="contract.contractor_name">المقاول {{contract.contractor_name}}</span>
+                        <span *ngIf="!contract.contractor_name">مقاولة جديدة</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                            المقاول
+                        </div>
+                        <select [(ngModel)]="contract.contractorId" class="form-control input-sm">
+                            <option *ngFor="let option of contractors.items" [ngValue]="option.id">
+                                {{option.name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-tag"></i>
+                            التكلفة
+                        </div>
+                        <span class="form-control input-sm">{{contract.price}}</span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-tag"></i>
+                            الخصم
+                        </div>
+                        <input type="text" class="form-control input-sm" placeholder="" [(ngModel)]="contract.deductions"
+                            (change)="setContractTotal(contract)" />
+                    </div>
+                </div>
+                <div class="form-group col-sm-3">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-tag"></i>
+                            الصافي
+                        </div>
+                        <span class="form-control input-sm">{{contract.total}}</span>
+                    </div>
+                </div>
+
+            </div>
+            <table class="table table-condensed table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 5%">
+                            <div class="vd_checkbox checkbox-primary">
+                                <label for="chk-all"></label>
+                            </div>
+                        </th>
+                        <th style="width: 5%">#</th>
+                        <th style="width: 30%">الخدمة</th>
+                        <th style="width: 10%">الكمية</th>
+                        <th style="width: 10%">سعر الوحدة</th>
+                        <th style="width: 10%">السعر</th>
+                        <th style="width: 20%">ملاحظات</th>
+                        <th style="width: 10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let service of contract.services; let j = index">
+                        <td>
+                            <div class="vd_checkbox checkbox-primary">
+                            </div>
+                        </td>
+                        <td>
+                            {{ j + 1 }}
+                        </td>
+                        <td>
+                            <select [(ngModel)]="service.serviceId"
+                                (change)="setContractService(service, contract, j, true)" class="form-control input-sm">
+                                <option *ngFor="let option of services.items" [ngValue]="option.id">
+                                    {{option.name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control input-sm" [(ngModel)]="service.quantity"
+                                (change)="setContractService(service, contract, j, false)" />
+                        </td>
+                        <td>
+                            <input type="text" class="form-control input-sm" [(ngModel)]="service.unitPrice"
+                                (change)="setContractService(service, contract, j, false)" />
+                        </td>
+                        <td>
+                            <span type="text" class="form-control input-sm">{{service.price}}</span>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control input-sm" [(ngModel)]="service.notes" />
+                        </td>
+                        <td class="menu-action">
+                            <a *ngIf="isEditEnabled" (click)="removeMissionService(contract, j)" class="btn menu-icon"><i
+                                    class="fa fa-trash"></i></a>
+                            <a *ngIf="j == contract.services.length-1 && isEditEnabled" class="btn menu-icon"
+                                (click)="addService(contract)"><i class="fa fa-plus"></i></a>
+                        </td>
+                    </tr>
+                    <tr *ngIf="contract.services.length==0">
+                        <td colspan="7"> </td>
+                        <td class="menu-action">
+                            <a *ngIf="isEditEnabled" class="btn menu-icon" (click)="addService(contract)"><i class="fa fa-plus"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+        </ng-container>
+
+        <div class="row">
+            <div class="form-group col-sm-12">
+                <div class="alert alert-light" role="alert">
+                    <!-- <a class="btn menu-icon" (click)="addContract()"><i class="fa fa-plus"></i></a>
+                    إضافة مقاولة -->
+                    <button *ngIf="isEditEnabled" type="button" class="btn btn-primary" (click)="addContract()"><i
+                            class="fa fa-plus append-icon"></i>إضافة مقاولة</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="mission.nextStage_stage_id=='BD9BB762-4ECA-404D-ADCE-CE9BECC9FAE6'">
+            <div class="form-group col-sm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+
+                    </div>
+                    <span class="form-control input-sm"></span>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+                        المرحلة
+                    </div>
+                    <span class="form-control input-sm">{{mission.nextStage_stage_name}}</span>
+                </div>
+            </div>
+            <div class="form-group col-sm-4">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-tag"></i>
+                        الحالة
+                    </div>
+                    <select [(ngModel)]="mission.stages[cardWritingStageIndex].status" class="form-control input-sm">
+                        <option value="w">في الانتظار</option>
+                        <option value="i">قيد التنفيذ</option>
+                        <option value="c">منفذ</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="modal-footer background-login">
+        <button *ngIf="isEditEnabled" type="button" class="btn btn-primary" (click)="saveMission()"><i
+                class="fa fa-save append-icon"></i>حفظ</button>
+        <button type="button" [routerLink]="['/missions-list']" class="btn">
+            <i class="fa fa-times append-icon"></i>إغلاق</button>
+        <!-- <button type="button" class="btn" (click)="close()"><i class="fa fa-times append-icon"></i>إغلاق</button> -->
+    </div>
+</div>

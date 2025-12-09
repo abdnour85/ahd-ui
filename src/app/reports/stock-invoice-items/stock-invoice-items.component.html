@@ -1,0 +1,66 @@
+<h2>المبادرون الأوائل <br>
+    كشف إخراج المواد للمقاول</h2>
+<table>
+    <colgroup>
+        <col style="width: 40%">
+        <col style="width: 30%">
+        <col style="width: 30%">
+    </colgroup>
+    <tbody>
+        <tr *ngIf="parameters.product_name!='الكل'">
+            <td colspan="3" style="width: auto">الصنف: <b>{{parameters.product_name}}</b>
+            </td>
+        </tr>
+        <tr>
+            <td>المقاول: <b>{{parameters.contractor_name}}</b>
+            </td>
+            <td>من تاريخ: <b>{{parameters.fromDate|date:"dd/MM/yyyy"}}</b>
+            </td>
+            <td>إلى تاريخ: <b>{{parameters.toDate|date:"dd/MM/yyyy"}}</b>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="items">
+    <thead>
+        <tr>
+            <th style="width: 5%;">الرقم</th>
+            <th style="width: 10%">التاريخ</th>
+            <th style="width: 7%">فاتورة</th>
+            <th style="width: 8%">نوع العمل</th>
+            <th style="width: 9%">رقم سوات</th>
+            <th *ngIf="parameters.product_name=='الكل'" style="min-width: 40mm;">الصنف</th>
+            <th style="width: 7%">الكمية</th>
+            <th style="width: auto">مكان العمل</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of invoiceItems; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{item.invice_date | date: 'dd/MM/yyyy'}}</td>
+            <td>{{item.invoice_serialNo}} </td>
+            <td> </td>
+            <td> </td>
+            <td *ngIf="parameters.product_name=='الكل'">{{item.product_name}} </td>
+            <td>{{item.quantity|number:'1.0-1'}} </td>
+            <td></td>
+        </tr>
+    </tbody>
+    <!-- <tfoot>
+        <td colspan="6" style="text-align: left;">مجموع الكميات: </td>
+        <td style="text-align: center; font-weight: bold;">{{sumOfProperty(flattenMissions, 'quantity')}}</td>
+        <td>&nbsp;</td>
+    </tfoot> -->
+</table>
+<p *ngIf="parameters.product_name!='الكل'" style="text-align: left; padding-left: 50px; padding-top: 5px;">مجموع الكميات: <b>{{sumOfProperty(invoiceItems, 'quantity')}}</b></p>
+
+<table class="version">
+    <tr>
+        <td>
+            <strong> &copy; 2025 <a onclick="">المبادرون الأوائل. برمجة عبد الرحمن نور</a>. </strong>
+        </td>
+        <!-- <td style="text-align: left;">
+        <b>الإصدار</b> {{company.pos_version}}
+      </td> -->
+    </tr>
+</table>

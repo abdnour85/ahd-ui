@@ -1,0 +1,99 @@
+<h2>المبادرون الأوائل <br>
+    بطاقة عمل رقم ({{mission.serialNo}})</h2>
+<table>
+    <tbody>
+        <tr>
+            <td colspan="3">الاسم: <b>{{mission.name}}</b>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 25%">رقم سوات: <b>{{mission.swatNo}}</b>
+            </td>
+            <td style="width: 25%">التاريخ: <b>{{mission.date|date:"dd/MM/yyyy"}}</b>
+            </td>
+            <td style="width: 25%">طبيعة العمل: <b>{{mission.workType_name}}</b>
+            </td>
+            <td style="width: 25%">الحالة: <b>{{mission.taskState_name}}</b>
+            </td>
+        </tr>
+        <tr>
+            <td>التكلفة: <b>{{mission.price|number:'1.1-2'}}</b>
+            </td>
+            <td>الخصم: <b>{{mission.deductions|number:'1.1-2'}}</b>
+            </td>
+            <td>الصافي: <b>{{mission.total|number:'1.1-2'}}</b>
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<h2 style="font-weight: bold;">العهدة المستخدمة</h2>
+<table class="items">
+    <thead>
+        <tr>
+            <th style="width: 10%;">رقم الصنف</th>
+            <th style="width: 60%;">اسم الصنف</th>
+            <th style="width: 9%">الكمية</th>
+            <th style="width: auto">ملاحظات</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let mproduct of mission.stockInvoice.items">
+            <td>{{mproduct.product_code}}</td>
+            <td>{{mproduct.product_name}}</td>
+            <td> {{mproduct.quantity|number:'1.0-1'}} </td>
+            <td>{{mproduct.notes}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 style="font-weight: bold;">المقاولات</h2>
+<ng-container *ngFor="let contract of mission.contracts; let i = index">
+    <table>
+        <tbody>
+            <tr>
+                <td style="width: 40%">المقاول: <b>{{contract.contractor_name}}</b>
+                </td>
+                <td style="width: 20%">التكلفة: <b>{{contract.price|number:'1.1-2'}}</b>
+                </td>
+                <td style="width: 20%">الخصم: <b>{{contract.deductions|number:'1.1-2'}}</b>
+                </td>
+                <td style="width: 20%">الصافي: <b>{{contract.total|number:'1.1-2'}}</b>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="items" style="margin-bottom: 50px;">
+        <thead>
+            <tr>
+                <th style="width: 10%;">رقم الخدمة</th>
+                <th style="width: 40%;">اسم الخدمة</th>
+                <th style="width: 9%">الكمية</th>
+                <th style="width: 9%">سعر الوحدة</th>
+                <th style="width: 9%">السعر</th>
+                <th style="width: auto">ملاحظات</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cservice of contract.services">
+                <td>{{cservice.service_code}}</td>
+                <td>{{cservice.service_name}}</td>
+                <td> {{cservice.quantity|number:'1.0-2'}} </td>
+                <td> {{cservice.unitPrice|number:'1.0-2'}} </td>                
+                <td> {{cservice.price|number:'1.0-2'}} </td>
+                <td>{{cservice.notes}}</td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
+
+<table class="version">
+    <tr>
+        <td>
+            <strong> &copy; 2025 <a onclick="">المبادرون الأوائل. برمجة عبد الرحمن نور</a>. </strong>
+        </td>
+        <!-- <td style="text-align: left;">
+        <b>الإصدار</b> {{company.pos_version}}
+      </td> -->
+    </tr>
+</table>

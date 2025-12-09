@@ -1,0 +1,39 @@
+<h2>المبادرون الأوائل <br>
+    كشف مواد المخزن</h2>
+<p>
+    تاريخ الطباعة: {{today | date:'dd/MM/yyyy HH:mm'}}
+</p>
+<table class="items">
+    <thead>
+        <tr>
+            <th style="width: 5%;">الرقم</th>
+            <th style="width: 10%">الكود</th>
+            <th style="width: auto">الاسم</th>
+            <th style="width: 10%">الكمية</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of products; let i=index">
+            <td>{{i+1}}</td>
+            <td>{{item.code}}</td>
+            <td>{{item.name}} </td>
+            <td>{{item.quantity}} </td>
+        </tr>
+    </tbody>
+    <!-- <tfoot>
+        <td colspan="6" style="text-align: left;">مجموع الكميات: </td>
+        <td style="text-align: center; font-weight: bold;">{{sumOfProperty(flattenMissions, 'quantity')}}</td>
+        <td>&nbsp;</td>
+    </tfoot> -->
+</table>
+
+<table class="version">
+    <tr>
+        <td>
+            <strong> &copy; 2025 <a onclick="">المبادرون الأوائل. برمجة عبد الرحمن نور</a>. </strong>
+        </td>
+        <!-- <td style="text-align: left;">
+        <b>الإصدار</b> {{company.pos_version}}
+      </td> -->
+    </tr>
+</table>

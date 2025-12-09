@@ -1,0 +1,51 @@
+<!-- general form elements -->
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title pull-left"><b>حفظ بيانات زبون</b></h3>
+        <!-- <button type="button" (click)="close()" class="btn"><i class="fa fa-times append-icon"></i>إغلاق</button> -->
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="form-group col-sm-6">
+
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+
+                    </div>
+                    <input type="text" class="form-control input-sm" placeholder="الاسم" [(ngModel)]="customer.name" />
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-address-card"></i>
+
+                    </div>
+                    <input type="text" class="form-control input-sm" placeholder="رقم الهوية"
+                        [(ngModel)]="customer.ssid" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-phone"></i>
+
+                    </div>
+                    <input type="text" class="form-control input-sm" placeholder="الهاتف" [(ngModel)]="customer.phoneNumber" />
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+    <!-- /.box-body -->
+    <div class="modal-footer background-login">
+        <button type="button" class="btn btn-primary" (click)="saveCustomer()"><i
+                class="fa fa-save append-icon"></i>حفظ</button>
+        <a type="button" class="btn" [routerLink]="['/customers-list']"><i class="fa fa-times append-icon"></i>إغلاق</a>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="row">
+    <!-- Content Header (Page header) -->
+  
+    <!-- Main content -->
+    <section class="content">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-danger">
+          <div class="box-header">
+            <h3 class="box-title pull-left"><b>إدارة الخدمات</b></h3>
+            <button type="button" (click)="getIservices(true)" class="btn btn-info">
+              <i class="fa fa-refresh append-icon"></i>تحديث</button>&nbsp;
+            <button type="button" [routerLink]="['/services-add']" class="btn btn-primary">
+              <i class="fa fa-plus append-icon"></i>إضافة</button>&nbsp;
+            <!-- <button type="button" (click)="close()" class="btn">
+                <i class="fa fa-times append-icon"></i>إغلاق
+              </button> -->
+          </div>
+          <div class="box-body">
+            <div class="row">
+              <div class="form-group col-sm-3">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-tags"></i>
+                  </div>
+                  <input type="text" class="form-control input-sm" [(ngModel)]="parameters.code" (change)="getIservices(true)"
+                    placeholder="الكود" />
+                </div>
+              </div>
+              <div class="form-group col-sm-6">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-address-card"></i>
+                  </div>
+                  <input type="text" class="form-control input-sm" [(ngModel)]="parameters.name" (change)="getIservices(true)"
+                    placeholder="الاسم" />
+                </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-tags"></i>
+                    نتائج/صفحة
+                  </div>
+                  <select [(ngModel)]="parameters.pageSize" class="form-control input-sm" (change)="getIservices(true)">
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="form-group col-sm-12">
+                <table class="table table-condensed table-striped">
+                  <thead>
+                    <tr>
+                      <th style="width: 5%;">
+                        <div class="vd_checkbox checkbox-primary">
+                          <!-- <input disabled type="checkbox" id="chk-all" (change)="toggleSelectAll()" /> -->
+                          <label for="chk-all"></label>
+                        </div>
+                      </th>
+                      <th style="width: 5%;">#</th>
+                      <th style="width: 10%;">الكود</th>
+                      <th style="width: 50%;">الاسم</th>
+                      <th style="width: 10%;">السعر</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let iservice of iservices.items; let i = index">
+                      <td>
+                        <div class="vd_checkbox checkbox-primary">
+                          <!-- <input disabled type="checkbox" id="chk-{{ iservice.id }}" [(ngModel)]="iservice.checked" /> -->
+                          <label for="chk-{{ iservice.id }}"></label>
+                        </div>
+                      </td>
+                      <td>
+                        {{(parameters.pageNumber-1)*parameters.pageSize + i+1}}
+                      </td>
+                      <td>
+                        {{ iservice.code }}
+                      </td>
+                      <td>
+                        {{ iservice.name }}
+                      </td>
+                      <td>
+                        {{ iservice.price }}
+                      </td>
+                      <td class="menu-action">
+                        <a class="btn menu-icon" [routerLink]="['/services-save']" [queryParams]="{ id: iservice.id }"><i
+                            class="fa fa-edit"></i></a>
+                            <a (click)="deleteIservice(iservice)" class="btn menu-icon"><i class="fa fa-trash"></i></a>
+                        <!-- <a (click)="restoreIservice(iservice)" class="btn menu-icon"><i
+                              class="fa fa-trash-restore"></i></a> -->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div *ngIf="iservices.items && iservices.length > parameters.pageSize">
+                  <ngb-pagination [collectionSize]="iservices.length" [(page)]="parameters.pageNumber"
+                    [pageSize]="parameters.pageSize" (pageChange)="getIservices(false)" [maxSize]="10"></ngb-pagination>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+      </div>
+    </section>
+  </div>

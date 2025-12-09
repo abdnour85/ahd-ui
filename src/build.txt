@@ -1,0 +1,29 @@
+port: 9011
+//update angular cli globally
+1. update node.js
+2. run:
+npm uninstall -g @angular/cli
+npm cache clean --force
+npm install -g @angular/cli
+
+//update local project
+rd /s/q node_modules
+npm uninstall --save-dev @angular/cli
+npm install --save-dev @angular/cli@latest
+npm install
+
+
+//first run
+npm install
+
+//git pull
+git reset --hard
+git pull
+
+//publish
+ng build --configuration production
+
+
+*ngIf="login && login.user"
+
+lastDayOfMonth = new Date(this.today.getFullYear(), this.today.getMonth()+1, 0);

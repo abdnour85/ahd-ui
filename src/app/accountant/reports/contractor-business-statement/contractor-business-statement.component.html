@@ -1,0 +1,101 @@
+<h2>المبادرون الأوائل <br>
+    كشف حساب أعمال المقاول</h2>
+<table>
+    <colgroup>
+        <col style="width: 40%">
+        <col style="width: 30%">
+        <col style="width: 30%">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td>المقاول: <b>{{parameters.contractor_name}}</b>
+            </td>
+            <td>المستخدم: <b>{{parameters.user_name}}</b>
+            </td>
+        </tr>
+        <tr>
+            <td>من تاريخ: <b>{{parameters.fromDate|date:"dd/MM/yyyy"}}</b>
+            </td>
+            <td>إلى تاريخ: <b>{{parameters.toDate|date:"dd/MM/yyyy"}}</b>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="items">
+    <thead>
+        <tr>
+            <th style="width: 5%;">الرقم</th>
+            <th style="width: 10%">التاريخ</th>
+            <th style="width: 7%">فاتورة</th>
+            <th style="width: 8%">نوع العمل</th>
+            <th style="width: 9%">رقم سوات</th>
+            @if(!parameters.contractorId) {
+            <th style="width: auto">المقاول</th>
+            }
+            @if(!parameters.userId) {
+            <th style="width: auto">المستخدم</th>
+            }
+            <th style="width: 7%">التكلفة</th>
+            <th style="width: 7%">للمستخدم</th>
+            <th style="width: auto">مكان العمل</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of filteredItems; let i=index">
+            <td>{{ i+1 }}</td>
+            <td>{{item.date | date: 'dd/MM/yyyy'}}</td>
+            <td>{{item.serialNo}} </td>
+            <td>{{item.workTypeName}} </td>
+            <td>{{item.swatNo}} </td>
+            @if(!parameters.contractorId) {
+            <td>{{item.contractorName}} </td>
+            }
+            @if(!parameters.userId) {
+            <td>{{item.userName}} </td>
+            }
+            <td>{{item.price|number:'1.0-2'}} </td>
+            <td>{{item.amount|number:'1.0-2'}} </td>
+            <td>
+                {{item.name}}
+                @if(item.adjustmentNotes){
+                [{{item.adjustmentNotes}}]
+                }
+            </td>
+        </tr>
+        <tr>            
+            <td></td>
+            <td></td>
+            <td></td>
+            @if(!parameters.contractorId) {
+            <td></td>
+            }
+            @if(!parameters.userId) {
+            <td></td>
+            }
+            <td colspan="2" style="text-align: left;">المجموع: &nbsp;</td>
+            <td style="font-weight: bold;">{{calculateGrandTotalGroupedPrice(filteredItems)|number:'1.0-1'}}</td>
+            <td style="font-weight: bold;">{{sumOfProperty(filteredItems, 'amount')|number:'1.0-1'}}</td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+    <!-- <tfoot>
+        <td colspan="6" style="text-align: left;">مجموع الكميات: </td>
+        <td style="text-align: center; font-weight: bold;">{{sumOfProperty(flattenMissions, 'quantity')}}</td>
+        <td>&nbsp;</td>
+    </tfoot> -->
+</table>
+<!-- <p *ngIf="parameters.product_name!='الكل'" style="text-align: left; padding-left: 50px; padding-top: 5px;">المجموع:
+    <b>صافي التكلفة: {{sumOfProperty(filteredItems, 'price')|number:'1.0-1'}} / الصافي للمقاول{{sumOfProperty(filteredItems, 'amount')|number:'1.0-1'}}</b>
+</p> -->
+
+<table class="version">
+    <tr>
+        <td>
+            <strong> &copy; 2025 <a onclick="">المبادرون الأوائل. برمجة عبد الرحمن نور</a>. </strong>
+        </td>
+        <!-- <td style="text-align: left;">
+        <b>الإصدار</b> {{company.pos_version}}
+      </td> -->
+    </tr>
+</table>

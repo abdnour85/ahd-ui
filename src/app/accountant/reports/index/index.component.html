@@ -1,0 +1,100 @@
+<div class="row">
+    <!-- Content Header (Page header) -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title"><b> كشف حساب أعمال </b></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                    من تاريخ
+                                </div>
+                                <input type="date" class="form-control input-sm"
+                                    [(ngModel)]="contractorBusinessStatement_parameters.fromDate"
+                                    placeholder="من تاريخ" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                    إلى تاريخ
+                                </div>
+                                <input type="date" class="form-control input-sm"
+                                    [(ngModel)]="contractorBusinessStatement_parameters.toDate"
+                                    placeholder="إلى تاريخ" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-tags"></i>
+                                    المقاول
+                                </div>
+                                <select [(ngModel)]="contractorBusinessStatement_parameters.contractorId"
+                                    class="form-control input-sm">
+                                    <option value="">الكل</option>
+                                    <option *ngFor="let option of contractors.items" [ngValue]="option.id">
+                                        {{option.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-tags"></i>
+                                    المستخدم
+                                </div>
+                                <select [(ngModel)]="contractorBusinessStatement_parameters.userId"
+                                    class="form-control input-sm">
+                                    <option value="">الكل</option>
+                                    <option *ngFor="let option of users.items" [ngValue]="option.id">
+                                        {{option.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <button type="button" (click)="printContractorBusinessStatement()"
+                                class="btn btn-primary btn-sm">
+                                <i class="fa fa-print append-icon"></i>&nbsp; طباعة &nbsp;</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check col-sm-2">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="contractorBusinessStatement_parameters.includeContracts" id="includeContracts">
+                            <label class="form-check-label" for="includeContracts">
+                                عرض المقاولات
+                            </label>
+                        </div>
+                        <div class="form-check col-sm-2">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="contractorBusinessStatement_parameters.includeAdditions" id="includeAdditions">
+                            <label class="form-check-label" for="includeAdditions">
+                                عرض الإضافات
+                            </label>
+                        </div>
+                        <div class="form-check col-sm-2">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="contractorBusinessStatement_parameters.includeDeductions" id="includeDeductions">
+                            <label class="form-check-label" for="includeDeductions">
+                                عرض الخصميات
+                            </label>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>  
+    </section>
+</div>

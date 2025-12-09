@@ -1,0 +1,72 @@
+<h2>المبادرون الأوائل <br>
+    كشف كروت عمل المقاول</h2>
+<table>
+    <colgroup>
+        <col style="width: auto">
+        <col style="width: auto">
+        <col style="width: auto">
+        <col style="width: 18%">
+        <col style="width: 18%">
+    </colgroup>
+    <tbody>
+        <tr>
+            <td>المقاول: <b>{{parameters.contractor_name}}</b>
+            </td>
+            <td>حالة الكرت: <b>{{parameters.taskState_name}}</b>
+            </td>
+            <td>نوع العمل: <b>{{parameters.workType_name}}</b>
+            </td>
+            <td>من تاريخ: <b>{{parameters.fromDate|date:"dd/MM/yyyy"}}</b>
+            </td>
+            <td>إلى تاريخ: <b>{{parameters.toDate|date:"dd/MM/yyyy"}}</b>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="items">
+    <thead>
+        <tr>
+            <th style="width: 5%;">الرقم</th>
+            <th style="width: 10%">التاريخ</th>
+            <th style="width: 7%">كرت</th>
+            <th *ngIf="!parameters.workTypeId" style="width: 8%">نوع العمل</th>
+            <th style="width: 9%">رقم سوات</th>
+            <th style="width: 7%">المبلغ</th>
+            <th style="width: 7%">الخصم</th>
+            <th style="width: 7%">الصافي</th>
+            <th style="width: auto">مكان العمل</th>
+            <th *ngIf="!parameters.taskStateId" style="width: 7%">التدقيق</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of flattenMissions">
+            <td>{{item.index}}</td>
+            <td>{{item.date | date: 'dd/MM/yyyy'}}</td>
+            <td>{{item.serialNo}} </td>
+            <td *ngIf="!parameters.workTypeId">{{item.workType_name}} </td>
+            <td>{{item.swatNo}} </td>
+            <td>{{item.price|number:'1.0-2'}} </td>
+            <td>{{item.discount|number:'1.0-2'}} </td>
+            <td>{{item.total|number:'1.0-2'}} </td>
+            <td>{{item.name}}</td>
+            <td *ngIf="!parameters.taskStateId">{{item.taskState_name}}</td>
+        </tr>
+    </tbody>
+    <!-- <tfoot>
+        <td colspan="6" style="text-align: left;">مجموع الكميات: </td>
+        <td style="text-align: center; font-weight: bold;">{{sumOfProperty(flattenMissions, 'quantity')}}</td>
+        <td>&nbsp;</td>
+    </tfoot> -->
+</table>
+<p style="text-align: left; padding-left: 50px; padding-top: 5px;">المجموع: <b>{{sumOfProperty(flattenMissions, 'total')|number:'1.0-2'}}</b> شيكل</p>
+
+<table class="version">
+    <tr>
+        <td>
+            <strong> &copy; 2025 <a onclick="">المبادرون الأوائل. برمجة عبد الرحمن نور</a>. </strong>
+        </td>
+        <!-- <td style="text-align: left;">
+        <b>الإصدار</b> {{company.pos_version}}
+      </td> -->
+    </tr>
+</table>

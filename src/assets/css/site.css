@@ -1,0 +1,33 @@
+﻿h2.print-only {
+    display: none;
+}
+h3.print-only {
+    display: none;
+}
+.print-only {
+    visibility: hidden
+}
+body {
+    font-size: 17px;
+    font-weight: bold;
+}
+@media print {
+    body{
+        font-size: 14px;
+    }
+    h2.print-only {
+        display: block;
+    }
+    h3.print-only {
+        display: block;
+    }
+    .print-only {
+        visibility: visible;
+    }
+    /*tr {
+        line-height: 200px;
+    }
+    td {
+        line-height: 200px;
+    }*/
+}
